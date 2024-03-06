@@ -1,5 +1,6 @@
 # Home Automation System using AWS IoT and Python
 This project is a home automation system that simulates sensors and actuators and uses AWS IoT services to control and monitor devices in your home.
+![Home automation system](https://th.bing.com/th/id/OIG4.cXqtmauDjkukvzuzItPD?w=400&h=400&c=6&r=0&o=5&pid=ImgGn)
 
 ## Prerequisites
 - An AWS account

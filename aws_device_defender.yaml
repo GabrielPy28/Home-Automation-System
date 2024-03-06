@@ -1,0 +1,30 @@
+# Define an AWS IoT Device Defender detector for the device
+# This detector is triggered when suspicious MQTT activity is detected on the home automation device. If the listener
+# is enabled, mitigation actions are allowed and a message is published to the specified SNS topic.
+detector_home_automation_device:
+  description: "Detector for the home automation device"
+  detectors:
+    - mitigation_allowed: true
+      detector_name: "Detect suspicious MQTT activity"
+      detector_type: "MQTT_ACTIVITY_DETECTOR"
+      mitigation_actions:
+        - sns:
+            topic_arn: "ARN_of_Your_SNS_TOPIC"
+
+# Define an AWS IoT Device Defender template for the device
+# This is a model for the home automation device that includes the detector defined above.
+template_home_automation_device:
+  description: "Template for the home automation device"
+  template_name: "HomeAutomationDevice"
+  detectors:
+    - detector_arn: "${detector_home_automation_device.arn}"
+
+# Define an AWS IoT Device Defender target for the device
+# This is a target for the home automation device that specifies the IAM role, Thing Name, and Model for the device.
+target_home_automation_device:
+  description: "Target for the home automation device"
+  targets:
+    - target_name: "HomeAutomationDeviceTarget"
+      principal: "ARN_OF_YOUR_AWS_IoT_Default_Role"
+      thing_name: "HomeAutomationDevice"
+      template_name: "${template_home_automation_device.name}"

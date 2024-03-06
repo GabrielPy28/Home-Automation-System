@@ -1,0 +1,31 @@
+# Define the rule to store temperature data in a DynamoDB table
+# This rule is triggered when a message is posted to the topic 'home/temperature/set'. The rule extracts the 'device_id', 
+# 'timestamp', and 'Temperature' values ​​from the message and stores them in a DynamoDB table called 'Temperature_data'.
+rule_store_temperature:
+  description: "Store temperature data in a DynamoDB table"
+  sql: "SELECT * FROM 'home/temperature/set'"
+  actions:
+    - dynamodb:
+        tableName: "temperature_data"
+        hashKeyField: "device_id"
+        hashKeyValue: "${topic(3)}"
+        rangeKeyField: "timestamp"
+        rangeKeyValue: "${timestamp()}"
+        payloadField: "temperature"
+        payloadValue: "${temperature}"
+
+# Define the rule to store light level data in a DynamoDB table
+# This rule is triggered when a message is posted to the 'home/light/set' topic. The rule extracts the 'device_id', 
+# 'timestamp', and 'light_level' values ​​from the message and stores them in a DynamoDB table called 'light_level_data'.
+rule_store_light_level:
+  description: "Store light level data in a DynamoDB table"
+  sql: "SELECT * FROM 'home/light/set'"
+  actions:
+    - dynamodb:
+        tableName: "light_level_data"
+        hashKeyField: "device_id"
+        hashKeyValue: "${topic(3)}"
+        rangeKeyField: "timestamp"
+        rangeKeyValue: "${timestamp()}"
+        payloadField: "light_level"
+        payloadValue: "${light_level}"
